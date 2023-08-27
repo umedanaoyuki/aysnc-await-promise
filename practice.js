@@ -1,13 +1,26 @@
-//同期処理を行う関数
-const syncronousFunc = () => {
-    console.log("これは同期処理関数内のログです");
-    return "完了";
+//非同期処理
+
+const getInformation = () => {
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&hourly=temperature_2m,precipitation';
+
+    fetch(url).then(res => res.json())
+        .then(json => {
+            console.log("非同期処理　成功メッセージ");
+            return json;
+        }).catch(error => {
+            console.log("非同期処理　失敗メッセージ");
+            return error;
+    })
+
 }
 
-//最初に実行される
-const message = "同期処理";
-//次に実行される
-const result = syncronousFunc();
 
-//最後に実行される
-console.log(message + result);
+/**
+ * getInformationを待たずに、console.logが実行されてしまう
+ * apiのレスポンスを待たずに次の処理に行ってしまう
+ */
+
+const message = "天気予報情報";
+const info = getInformation();
+
+console.log(message + info)
